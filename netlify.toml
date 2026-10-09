@@ -1,0 +1,21 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/verify-access"
+  to = "/.netlify/functions/verify-access"
+  status = 200
+
+[[redirects]]
+  from = "/api/save-workbook"
+  to = "/.netlify/functions/save-workbook"
+  status = 200
+
+[[redirects]]
+  from = "/api/gemini-report"
+  to = "/.netlify/functions/gemini-report"
+  status = 200
