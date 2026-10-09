@@ -1,17 +1,32 @@
 import Airtable from "airtable"
 
-const airtable = new Airtable({
-  apiKey: process.env.AIRTABLE_TOKEN
-})
-
-const base = airtable.base(process.env.AIRTABLE_BASE_ID)
-
 const cleanNumber = (value) => {
   return String(value || "").replace(/\D/g, "")
 }
 
 export default async (request) => {
   try {
+    const apiKey = Deno.env.get("AIRTABLE_TOKEN")
+    const baseId = Deno.env.get("AIRTABLE_BASE_ID")
+    const tableName = Deno.env.get("AIRTABLE_TABLE_NAME")
+
+    if (!apiKey || !baseId || !tableName) {
+      console.error("Variable Airtable manquante dans Netlify.")
+      return new Response(
+        JSON.stringify({
+          authorized: false,
+          message: "La configuration du service est incomplète."
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" }
+        }
+      )
+    }
+
+    const airtable = new Airtable({ apiKey })
+    const base = airtable.base(baseId)
+
     const body = await request.json()
     const whatsappNumber = cleanNumber(body.whatsappNumber)
 
@@ -28,10 +43,8 @@ export default async (request) => {
       )
     }
 
-    const records = await base(process.env.AIRTABLE_TABLE_NAME)
-      .select({
-        maxRecords: 100
-      })
+    const records = await base(tableName)
+      .select({ maxRecords: 100 })
       .firstPage()
 
     const member = records.find((record) => {
@@ -81,6 +94,7 @@ export default async (request) => {
       }
     )
   } catch (error) {
+    console.error("Erreur de vérification Airtable :", error)
     return new Response(
       JSON.stringify({
         authorized: false,
