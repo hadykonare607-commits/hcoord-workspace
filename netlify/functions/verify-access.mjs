@@ -42,6 +42,13 @@ export default async (request) => {
     })
 
     if (!airtableResponse.ok) {
+      const airtableError = await airtableResponse.json().catch(() => ({}))
+      console.error(
+        "Airtable a refusé la requête :",
+        airtableResponse.status,
+        JSON.stringify(airtableError.error || null)
+      )
+
       return json(
         {
           authorized: false,
