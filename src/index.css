@@ -3911,3 +3911,50 @@ button:hover {
 .rapport-liste li {
   margin-bottom: 8px;
 }
+@media (max-width: 700px) {
+  .workspace-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .workspace-sidebar {
+    position: relative;
+    top: auto;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .workspace-sidebar .app-kicker {
+    font-size: 24px !important;
+  }
+
+  .workspace-sidebar h1 {
+    margin: 8px 0;
+    font-size: 20px;
+  }
+
+  .sidebar-subtitle {
+    margin-bottom: 14px;
+  }
+
+  .bloc-progression {
+    min-height: 0;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .bloc-communaute,
+  .bouton-communaute {
+    margin-top: 12px;
+  }
+
+  .workspace-main {
+    width: 100%;
+    padding: 20px 16px 40px;
+  }
+}
